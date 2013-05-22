@@ -6,8 +6,6 @@ require 'pp'
 
 
 
-
-
 def create_user
   puts "Please enter username"
   username = gets.chomp
@@ -45,6 +43,7 @@ def login_screen
 
   unless table_username.nil?
     puts "Welcome, #{username}!"
+    @userID = table_username.id
     user_screen
   else
     print "This username does not exist.  Would you like to create it?
@@ -109,7 +108,7 @@ Plot:
 #{movie_info['Plot']}
      
     MOVIEINFO
-
+    
     print " 
     1) Send to Watchlist
     2) Send to Already Watched List
@@ -121,6 +120,16 @@ Plot:
 
   if movie_action == "3"
     print "\e[H\e[2J"
+    recommended_movies(top_five_movies)
+  elsif movie_action == "1"
+    User_movie.create(user_id: @userID, movie_title: movie_info['Title'], movie_status: 'watchlist')
+    puts "#{movie_info['Title']} has been added to your WatchList
+    "
+    recommended_movies(top_five_movies)
+  elsif movie_action == "2"
+    User_movie.create(user_id: @userID, movie_title: movie_info['Title'], movie_status: 'already_watched')
+    puts "#{movie_info['Title']} has been added to your Already Watched List
+    "
     recommended_movies(top_five_movies)
   else
     print "\e[H\e[2J"
@@ -168,7 +177,6 @@ def recommend_screen
   recommended_movies(top_five_movies)
 
 end
-
 
 
 login_screen
