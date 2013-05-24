@@ -1,3 +1,3 @@
-class User_movie < ActiveRecord::Base
+class UserMovie < ActiveRecord::Base
 
 end
