@@ -30,6 +30,13 @@ Features:
 5)  This also will have a menu where the user can select their watchlist or already watched list and interact with the movie titles from there.
 
 
+Dependencies:
+
+  Gems:
+   -Faraday (JSON Parser)
+   -Pretty Print
+
+
 Instructions for Use:
 
 Execute app:
