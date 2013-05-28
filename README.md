@@ -58,10 +58,20 @@ Execute app:
 
 
 
+Application API references:
+
+1) Tastekid.com
+
+2) OMDBAPI.com
+
+
+
 
 Author:
 
 Dane Hale
+
+
 
 
 
