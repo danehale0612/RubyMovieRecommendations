@@ -1,4 +1,4 @@
-Purpose:
+##Purpose:
 
 To give a user an organized application to recommend movies.  The organization is for making a watch list (a place to store movie tiles a user wants to see) and a watched list (a place to store titles a user has already seen).  Whenever a user asked for movie recommendations it will not recommend movies that the user has sent to either list (unless the user deletes the title from their lists).
 
@@ -7,7 +7,7 @@ Another purpose of the project is for my Nashville Software School Capstone to s
 
 
 
-Status:
+##Status:
 
   What is complete:
   
@@ -24,7 +24,7 @@ Status:
 
 
 
-Features:
+##Features:
 
 1)   Have a User Login 
 
@@ -38,7 +38,7 @@ Features:
 
 
 
-Dependencies:
+##Dependencies:
 
   Gems:
   
@@ -48,7 +48,7 @@ Dependencies:
 
 
 
-Instructions for Use:
+##Instructions for Use:
 
 Execute app:
 
@@ -58,16 +58,7 @@ Execute app:
 
 
 
-Application API references:
-
-1) Tastekid.com
-
-2) OMDBAPI.com
-
-
-
-
-Author:
+##Author:
 
 Dane Hale
 
@@ -76,14 +67,7 @@ Dane Hale
 
 
 
-Changlog:
-
-5/9/2013 - user story created for app
-
-
-
-
-License:
+##License:
 
 Copyright (c) 2013 Dane Hale
 
