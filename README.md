@@ -34,6 +34,7 @@ Dependencies:
 
   Gems:
    1) Faraday (JSON Parser)
+   
    2) Pretty Print
 
 
@@ -42,6 +43,7 @@ Instructions for Use:
 Execute app:
 
 1) go to directory of executive file (movie.rb) in command line of terminal
+
 2) type './movies.rb' (don't type quotes)
 
 
