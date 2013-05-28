@@ -6,8 +6,13 @@ The purpose of the project is for my Nashville Software School Capstone to show 
 
 Status:
 
-My project is currently in the planning phase
+What is complete:
+-the executive file is fully functional (the app runs, from what QA I have done, as planned)
 
+To do:
+-Need to connect app to Test database for additional testing
+-Need to write more tests
+-Refactor, Refactor, Refactor
 
 
 
