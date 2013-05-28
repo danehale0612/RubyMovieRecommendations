@@ -1,15 +1,15 @@
 ##Login screen
 
-  -Every user has to first login to get access to their individual movie recommendations, watch list, and already watched list.
-  After the user types in their username, if it is not recognized in the database the app will ask if the user would like to create a new username, if the user chooses to do so, they will be prompted on how to setup a username.
-  Once the user is successfully logged in, they will be sent to the user screen
-
-  Existing User: type “username”
+  <ul>
+    <li>Every user has to first login to get access to their individual movie recommendations, watch list, and already watched list.
+    After the user types in their username, if it is not recognized in the database the app will ask if the user would like to create a new username, if the user chooses to do so, they will be prompted on how to setup a username.
+    Once the user is successfully logged in, they will be sent to the user screen</li>
+  </ul>
+  `Existing User: type “username”
       -goes into existing user’s movie database
   If username typed is not found, prompt: would you like to create a new username   [y,n]   
-  -creates new user table with the name being the username typed
-
-
+  -creates new user table with the name being the username typed`
+  
 ##User screen
   
   -Every user is presented with the same options for their profile: recommend, watch list, and already watched list, and exit app.
