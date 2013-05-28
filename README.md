@@ -9,53 +9,54 @@ Another purpose of the project is for my Nashville Software School Capstone to s
 
 ##Status:
 
-  What is complete:
+  <h5>What is complete:</h5>
+  <ul>
+    <li>the executive file is fully functional (the app runs, from what QA I have done, as planned)</li>
+  </ul>
   
-  -the executive file is fully functional (the app runs, from what QA I have done, as planned)
-  
-  To do:
-  
-  -Need to connect app to Test database for additional testing
-  
-  -Need to write more tests
-  
-  -Refactor, Refactor, Refactor
-
+  <h5>To do:</h5>
+  <ul>
+    <li>Connect app to Test database for additional testing</li>
+    <li>Refactor, Refactor, Refactor</li>
+  </ul>
 
 
 
 ##Features:
 
-1)   Have a User Login 
+<ul>
 
-2)  After logged in, a user can type in a movie name.  Using an API (Tastkid), 5 movie recommendations will print out.
+  <li>Have a User Login</li>
 
-3)  The user can select one of the recommendations to see more information about the movie and then will be prompted as to what does the user want to do with the movie?  Does the user want to send it to their "watchlist", mark the movie as "already watched", or leave that movie and go back to the recommendations.
+  <li>After logged in, a user can type in a movie name.  Using an API (Tastkid), 5 movie recommendations will print out.</li>
 
-4)  By selecting that a movie is in a watchlist or it has been watched, those titles will not get re-recommended to the user again.  
+  <li>The user can select one of the recommendations to see more information about the movie and then will be prompted as to what does the user want to do with the movie?  Does the user want to send it to their "watchlist", mark the movie as "already watched", or leave that movie and go back to the recommendations.</li>
 
-5)  This also will have a menu where the user can select their watchlist or already watched list and interact with the movie titles from there.
+  <li>By selecting that a movie is in a watchlist or it has been watched, those titles will not get re-recommended to the user again.</li>
 
+  <li>This also will have a menu where the user can select their watchlist or already watched list and interact with the movie titles from there.</li>
 
+</ul>
 
 ##Dependencies:
 
-  Gems:
+  <h5>Gems:</h5>
   
-   1) Faraday (JSON Parser)
+  <ul>
+   <li>Faraday (JSON Parser)</li>
    
-   2) Pretty Print
-
+   <li>Pretty Print</li>
+  </ul>
 
 
 ##Instructions for Use:
 
-Execute app:
+<h5>Execute app:</h5>
+<ul>
+  <li>go to directory of executive file (movie.rb) in command line of terminal</li>
 
-1) go to directory of executive file (movie.rb) in command line of terminal
-
-2) type './movies.rb' (don't type quotes)
-
+  <li>type './movies.rb' (don't type quotes)</li>
+</ul>
 
 
 ##Author:
