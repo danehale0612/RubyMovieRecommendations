@@ -1,7 +1,8 @@
-
 Purpose:
 
-The purpose of the project is for my Nashville Software School Capstone to show I have basic understanding of ruby (this far into my training) and can demonstrate the ability to store and retrieve information (in ruby).
+To give a user an organized application to recommend movies.  The organization is for making a watch list (a place to store movie tiles a user wants to see) and a watched list (a place to store titles a user has already seen).  Whenever a user asked for movie recommendations it will not recommend movies that the user has sent to either list (unless the user deletes the title from their lists).
+
+Another purpose of the project is for my Nashville Software School Capstone to show I have basic understanding of ruby (this far into my training) and can demonstrate the ability to store and retrieve information (in ruby).
 
 
 Status:
