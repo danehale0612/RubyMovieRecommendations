@@ -5,15 +5,22 @@ To give a user an organized application to recommend movies.  The organization i
 Another purpose of the project is for my Nashville Software School Capstone to show I have basic understanding of ruby (this far into my training) and can demonstrate the ability to store and retrieve information (in ruby).
 
 
+
+
 Status:
 
-What is complete:
--the executive file is fully functional (the app runs, from what QA I have done, as planned)
+  What is complete:
+  
+  -the executive file is fully functional (the app runs, from what QA I have done, as planned)
+  
+  To do:
+  
+  -Need to connect app to Test database for additional testing
+  
+  -Need to write more tests
+  
+  -Refactor, Refactor, Refactor
 
-To do:
--Need to connect app to Test database for additional testing
--Need to write more tests
--Refactor, Refactor, Refactor
 
 
 
@@ -30,12 +37,15 @@ Features:
 5)  This also will have a menu where the user can select their watchlist or already watched list and interact with the movie titles from there.
 
 
+
 Dependencies:
 
   Gems:
+  
    1) Faraday (JSON Parser)
    
    2) Pretty Print
+
 
 
 Instructions for Use:
@@ -47,14 +57,20 @@ Execute app:
 2) type './movies.rb' (don't type quotes)
 
 
+
+
 Author:
 
 Dane Hale
 
 
+
+
 Changlog:
 
 5/9/2013 - user story created for app
+
+
 
 
 License:
