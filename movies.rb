@@ -14,13 +14,91 @@ def create_user
   login_screen
 end
 
-def watch_list
+
+def watchlist_to_watched_list(db_movie_title, movie_info)
+  UserMovie.where(user_id: @userID, movie_title: db_movie_title, movie_status: 'watchlist').destroy_all
+  print "\e[H\e[2J"
+  send_to_already_watched_list(db_movie_title)
+  puts "#{movie_info['Title']} has been added to your Already Watched List
+    
+    "
+    watchlist
+end
+
+
+def delete_from_watchlist(db_movie_title, movie_info)
+  UserMovie.where(user_id: @userID, movie_title: db_movie_title, movie_status: 'watchlist').destroy_all
+  print "\e[H\e[2J"
+  puts "#{movie_info['Title']} has been deleted from your Watchlist"
+  puts
+  watchlist
+end
+
+
+
+def watchlist
+  title_list = []
   puts "Watchlist"
-  watchList = UserMovie.where(movie_status: "watchlist", user_id: @userID).all
-  watchList.each_with_index do |movie, i|
+  watch_list = UserMovie.where(movie_status: "watchlist", user_id: @userID).all
+  watch_list.each do |movie|
+    title_list << movie.movie_title
+  end
+
+  watch_list.each_with_index do |movie, i|
     puts "#{i + 1}) #{movie.movie_title}"
   end
+
+  puts
+
+  print "r)Enter a new title for Recommendations
+h)Go to User Home Screen
+
+Select a movie: "
+  
+
+  menu_option = gets.chomp.to_s
+
+  if menu_option == "r"
+    print "\e[H\e[2J"
+    recommend_screen 
+  elsif menu_option == "h"
+    print "\e[H\e[2J"
+    user_screen
+  else 
+    selected_movie_index = menu_option.to_i - 1
+  end
+
+  selected_movie = title_list[selected_movie_index]
+
+  response = Faraday.get "http://www.omdbapi.com/?i=&t=#{selected_movie}&plot=full&tomatoes=true"
+
+  movie_info = JSON.parse(response.body)
+
+  print "\e[H\e[2J"
+  puts full_movie_info(movie_info)
+    
+    print " 
+  1) Send to Already Watched List
+  2) Delete movie from Watchlist
+  3) Leave this movie
+
+What would you like to do with movie?:"
+
+  db_movie_title = movie_info['Title'].downcase
+
+  movie_action = gets.chomp
+
+  if movie_action == "3"
+    print "\e[H\e[2J"
+    watchlist
+  elsif movie_action == "1"
+    watchlist_to_watched_list(db_movie_title, movie_info)
+  else
+    delete_from_watchlist(db_movie_title, movie_info)
+  end
 end
+
+
 
 def full_movie_info(movie_info)
 
@@ -44,6 +122,26 @@ Plot:
 end
 
 
+def watched_list_to_watchlist(db_movie_title, movie_info)
+  UserMovie.where(user_id: @userID, movie_title: db_movie_title, movie_status: 'already_watched').destroy_all
+  print "\e[H\e[2J"
+  send_to_watchlist(db_movie_title)
+  puts "#{movie_info['Title']} has been added to your WatchList
+    
+    "
+    already_watched_list
+end
+
+
+def delete_from_already_watched_list(db_movie_title, movie_info)
+  UserMovie.where(user_id: @userID, movie_title: db_movie_title, movie_status: 'already_watched').destroy_all
+  print "\e[H\e[2J"
+  puts "#{movie_info['Title']} has been deleted from your Already Watched List"
+  puts
+  already_watched_list
+end
+
+
 
 def already_watched_list
   title_list = []
@@ -57,9 +155,25 @@ def already_watched_list
     puts "#{i + 1}) #{movie.movie_title}"
   end
 
-  print "Select a movie: "
+  puts
+
+  print "r)Enter a new title for Recommendations
+h)Go to User Home Screen
+
+Select a movie: "
   
-  selected_movie_index = gets.chomp.to_i - 1
+
+  menu_option = gets.chomp.to_s
+
+  if menu_option == "r"
+    print "\e[H\e[2J"
+    recommend_screen 
+  elsif menu_option == "h"
+    print "\e[H\e[2J"
+    user_screen
+  else 
+    selected_movie_index = menu_option.to_i - 1
+  end
 
   selected_movie = title_list[selected_movie_index]
 
@@ -77,11 +191,17 @@ def already_watched_list
 
 What would you like to do with movie?:"
 
+  db_movie_title = movie_info['Title'].downcase
+
   movie_action = gets.chomp
 
   if movie_action == "3"
     print "\e[H\e[2J"
     already_watched_list
+  elsif movie_action == "1"
+    watched_list_to_watchlist(db_movie_title, movie_info)
+  else
+    delete_from_already_watched_list(db_movie_title, movie_info)
   end
 
 end
@@ -104,7 +224,7 @@ What would you like to do: "
     recommend_screen
   elsif direction == "2"
     print "\e[H\e[2J"
-    watch_list
+    watchlist
   elsif direction == "3"
     print "\e[H\e[2J"
     already_watched_list
@@ -164,19 +284,21 @@ end
 
 def movie_info_screen(top_five_movies, movie_title)
 
-    print "6)Enter a new title for Recommendations
-7)Go to User Home Screen
+    print "r)Enter a new title for Recommendations
+h)Go to User Home Screen
 
 Select a movie: "
 
-    picked_movie_index = gets.chomp.to_i - 1
+    menu_option = gets.chomp.to_s
 
-    if picked_movie_index == 5
+    if menu_option == "r"
       print "\e[H\e[2J"
       recommend_screen 
-    elsif picked_movie_index == 6
+    elsif menu_option == "h"
       print "\e[H\e[2J"
       user_screen
+    else 
+      picked_movie_index = menu_option.to_i - 1
     end
 
     picked_movie = top_five_movies[picked_movie_index]
