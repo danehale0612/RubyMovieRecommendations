@@ -1,4 +1,4 @@
-1)start screen
+1) start screen
 
   -Every user has to first login to get access to their individual movie recommendations, watch list, and already watched list.
   After the user types in their username, if it is not recognized in the database the app will ask if the user would like to create a new username, if the user chooses to do so, they will be prompted on how to setup a username.
@@ -57,7 +57,7 @@
 
   -The user will want to know more about a movie before they take action on it.  This information consist of the title, year released, rotten tomatoes score, actors, directors, etc.
 
-      Options inside the movie info screen include:
+     Options inside the movie info screen include:
         -plot
         -rating
         -rotten tomatoes score
