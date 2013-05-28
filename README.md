@@ -33,16 +33,16 @@ Features:
 Dependencies:
 
   Gems:
-   -Faraday (JSON Parser)
-   -Pretty Print
+   1) Faraday (JSON Parser)
+   2) Pretty Print
 
 
 Instructions for Use:
 
 Execute app:
 
--go to directory of executive file (movie.rb) in command line of terminal
--type './movies.rb' (don't type quotes)
+1) go to directory of executive file (movie.rb) in command line of terminal
+2) type './movies.rb' (don't type quotes)
 
 
 Author:
