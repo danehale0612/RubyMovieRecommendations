@@ -1,4 +1,4 @@
-1) start screen
+##Login screen
 
   -Every user has to first login to get access to their individual movie recommendations, watch list, and already watched list.
   After the user types in their username, if it is not recognized in the database the app will ask if the user would like to create a new username, if the user chooses to do so, they will be prompted on how to setup a username.
@@ -10,7 +10,7 @@
   -creates new user table with the name being the username typed
 
 
-2) inside of user screen
+##User screen
   
   -Every user is presented with the same options for their profile: recommend, watch list, and already watched list, and exit app.
   -The user will navigate through options by typing in the index of the option they want to go to(ie: user wants to go to “1) Recommend Movies”, the user will type in “1” and then hit enter).
@@ -25,7 +25,7 @@
       -exit app
         -this will clear the screen and send the user outside of the app
 
-3) recommend screen
+##Recommend screen
   
   -The user is more than likely is coming to this app to find movies that might interest them (the user).  The recommend movies screen is where they can accomplish this goal.  
   -the user will first type in a movie that they like (ie: “heat”) and the recommendation screen will show a list of 5 movies that it will recommend
@@ -53,7 +53,7 @@
   Once a movie has had a method applied to it, the recommendation screen will not recommend that title again.  
 
 
-4) Movie Info Screen 
+##Movie Info Screen 
 
   -The user will want to know more about a movie before they take action on it.  This information consist of the title, year released, rotten tomatoes score, actors, directors, etc.
 
@@ -89,13 +89,13 @@
 
 
 
-5) watch list screen     
+##Watch list screen     
   
   -Purpose for this screen is to show the movies that the user has pushed to their “watch list”.  These are the movies that the user has already watched but does not want to show up on the recommendation list ever. 
 
   -The user can select a movie on their list and send it to their already watched list, or delete it from this table.
     
-6) Already Watched screen   
+##Already Watched screen   
 
 
   -Purpose for this screen is to show the movies that the user has pushed to their “already watched list”.  These are the movies that the user has already watched but does not want to show up on the recommendation list ever. 
