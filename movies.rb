@@ -3,6 +3,10 @@
 require_relative 'bootstrap_ar'
 require 'faraday'
 require 'pp'
+database = ENV['FP_ENV'] || 'development'
+connect_to database
+
+
 
 
 
@@ -39,6 +43,7 @@ end
 def watchlist
   title_list = []
   puts "Watchlist"
+  puts
   watch_list = UserMovie.where(movie_status: "watchlist", user_id: @userID).all
   watch_list.each do |movie|
     title_list << movie.movie_title
@@ -50,10 +55,11 @@ def watchlist
 
   puts
 
-  print "r)Enter a new title for Recommendations
-h)Go to User Home Screen
+  print "
+  r)Enter a new title for Recommendations
+  h)Go to User Home Screen
 
-Select a movie: "
+  Select a movie: "
   
 
   menu_option = gets.chomp.to_s
@@ -82,7 +88,7 @@ Select a movie: "
   2) Delete movie from Watchlist
   3) Leave this movie
 
-What would you like to do with movie?:"
+  What would you like to do with movie?: "
 
   db_movie_title = movie_info['Title'].downcase
 
@@ -104,20 +110,20 @@ def full_movie_info(movie_info)
 
   <<-MOVIEINFO
 
-Title: #{movie_info['Title']}
-Year: #{movie_info['Year']}
-Rated: #{movie_info['Rated']}
-Released: #{movie_info['Released']}
-Runtime: #{movie_info['Runtime']}
-Genre: #{movie_info['Genre']}
-Director: #{movie_info['Director']}
-Writer: #{movie_info['Writer']}
-Actors: #{movie_info['Actors']}
-Rotten Tomatoes Score: #{movie_info['tomatoMeter']}
-Plot: 
-#{movie_info['Plot']}
+  Title: #{movie_info['Title']}
+  Year: #{movie_info['Year']}
+  Rated: #{movie_info['Rated']}
+  Released: #{movie_info['Released']}
+  Runtime: #{movie_info['Runtime']}
+  Genre: #{movie_info['Genre']}
+  Director: #{movie_info['Director']}
+  Writer: #{movie_info['Writer']}
+  Actors: #{movie_info['Actors']}
+  Rotten Tomatoes Score: #{movie_info['tomatoMeter']}
+  Plot: 
+  #{movie_info['Plot']}
      
-    MOVIEINFO
+  MOVIEINFO
 
 end
 
@@ -146,6 +152,9 @@ end
 def already_watched_list
   title_list = []
   puts "Already Watched List"
+
+  puts
+
   watchedList = UserMovie.where(movie_status: "already_watched", user_id: @userID).all
   watchedList.each do |movie|
     title_list << movie.movie_title
@@ -157,10 +166,11 @@ def already_watched_list
 
   puts
 
-  print "r)Enter a new title for Recommendations
-h)Go to User Home Screen
+  print "
+  r)Enter a new title for Recommendations
+  h)Go to User Home Screen
 
-Select a movie: "
+  Select a movie: "
   
 
   menu_option = gets.chomp.to_s
@@ -189,7 +199,7 @@ Select a movie: "
   2) Delete movie from Already Watched List
   3) Leave this movie
 
-What would you like to do with movie?:"
+  What would you like to do with movie?:"
 
   db_movie_title = movie_info['Title'].downcase
 
@@ -210,12 +220,15 @@ end
 
 def user_screen
   print "
-1) Recommend movies
-2) Watchlist
-3) Already Watched List
-4) Exit App
 
-What would you like to do: "
+  User Home Screen 
+
+  1) Recommend movies
+  2) Watchlist
+  3) Already Watched List
+  4) Exit App
+
+  What would you like to do: "
 
   direction = gets.chomp
 
@@ -240,10 +253,11 @@ end
 
 
 def login_screen
-  print "See These Movies!
-Login
+  print "
+  See These Movies!
+  Login
 
-Type Username: "
+  Type Username: "
   username = gets.chomp 
 
   table_username = User.where(:name => username).first
@@ -284,42 +298,43 @@ end
 
 def movie_info_screen(top_five_movies, movie_title)
 
-    print "r)Enter a new title for Recommendations
-h)Go to User Home Screen
+  print "
+  r)Enter a new title for Recommendations
+  h)Go to User Home Screen
 
-Select a movie: "
+  Select a movie: "
 
-    menu_option = gets.chomp.to_s
+  menu_option = gets.chomp.to_s
 
-    if menu_option == "r"
-      print "\e[H\e[2J"
-      recommend_screen 
-    elsif menu_option == "h"
-      print "\e[H\e[2J"
-      user_screen
-    else 
-      picked_movie_index = menu_option.to_i - 1
-    end
-
-    picked_movie = top_five_movies[picked_movie_index]
-
-    response = Faraday.get "http://www.omdbapi.com/?i=&t=#{picked_movie['Name']}&plot=full&tomatoes=true"
-
-    movie_info = JSON.parse(response.body)
-
+  if menu_option == "r"
     print "\e[H\e[2J"
-    puts full_movie_info(movie_info)
-    
-    print " 
-    1) Send to Watchlist
-    2) Send to Already Watched List
-    3) Leave this movie
+    recommend_screen 
+  elsif menu_option == "h"
+    print "\e[H\e[2J"
+    user_screen
+  else 
+    picked_movie_index = menu_option.to_i - 1
+  end
 
-    What would you like to do with movie?:"
+  picked_movie = top_five_movies[picked_movie_index]
 
-    db_movie_title = movie_info['Title'].downcase
+  response = Faraday.get "http://www.omdbapi.com/?i=&t=#{picked_movie['Name']}&plot=full&tomatoes=true"
 
-    movie_action = gets.chomp
+  movie_info = JSON.parse(response.body)
+
+  print "\e[H\e[2J"
+  puts full_movie_info(movie_info)
+  
+  print " 
+  1) Send to Watchlist
+  2) Send to Already Watched List
+  3) Leave this movie
+
+  What would you like to do with movie?:"
+
+  db_movie_title = movie_info['Title'].downcase
+
+  movie_action = gets.chomp
 
   if movie_action == "3"
     print "\e[H\e[2J"
