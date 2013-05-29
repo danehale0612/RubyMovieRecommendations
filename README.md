@@ -9,7 +9,6 @@ Another purpose of the project is for my Nashville Software School Capstone to s
 
 ##Status:
 
-[![Build Status](https://travis-ci.org/danehale0612/RubyMovieRecommendations.png)](https://travis-ci.org/danehale0612/RubyMovieRecommendations)
 
   <h5>What is complete:</h5>
   <ul>
