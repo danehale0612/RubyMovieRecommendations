@@ -103,22 +103,18 @@ module MoviesController
 
   def full_movie_info(movie_info)
 
-    <<-MOVIEINFO
-
-    Title: #{movie_info['Title']}
-    Year: #{movie_info['Year']}
-    Rated: #{movie_info['Rated']}
-    Released: #{movie_info['Released']}
-    Runtime: #{movie_info['Runtime']}
-    Genre: #{movie_info['Genre']}
-    Director: #{movie_info['Director']}
-    Writer: #{movie_info['Writer']}
-    Actors: #{movie_info['Actors']}
-    Rotten Tomatoes Score: #{movie_info['tomatoMeter']}
-    Plot: 
-    #{movie_info['Plot']}
-       
-    MOVIEINFO
+    
+    return "\nTitle: #{movie_info['Title']}" +
+    "\nYear: #{movie_info['Year']}" +
+    "\nRated: #{movie_info['Rated']}" +
+    "\nReleased: #{movie_info['Released']}" +
+    "\nRuntime: #{movie_info['Runtime']}" +
+    "\nGenre: #{movie_info['Genre']}" +
+    "\nDirector: #{movie_info['Director']}" +
+    "\nWriter: #{movie_info['Writer']}" +
+    "\nActors: #{movie_info['Actors']}" +
+    "\nRotten Tomatoes Score: #{movie_info['tomatoMeter']}" +
+    "\nPlot:\n#{movie_info['Plot']}"
 
   end
 
@@ -302,11 +298,9 @@ module MoviesController
 
   def movie_info_screen(top_five_movies, movie_title)
 
-    print "
-    r)Enter a new title for Recommendations
-    h)Go to User Home Screen
-
-    Select a movie: "
+    print "\nr)Enter a new title for Recommendations\n" + 
+    "h)Go to User Home Screen\n" + 
+    "\nSelect a movie: "
 
     menu_option = gets.chomp.to_s
 
@@ -336,12 +330,10 @@ module MoviesController
     else
       puts full_movie_info(movie_info)
       
-      print " 
-      1) Send to Watchlist
-      2) Send to Already Watched List
-      3) Leave this movie
-
-      What would you like to do with movie?:"
+      print "\n1) Send to Watchlist\n" +
+      "2) Send to Already Watched List\n" +
+      "3) Leave this movie\n" +
+      "\nWhat would you like to do with movie?: "
 
       db_movie_title = movie_info['Title'].downcase
 
