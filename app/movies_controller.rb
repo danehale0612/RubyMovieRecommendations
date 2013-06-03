@@ -12,9 +12,13 @@ module MoviesController
     login_screen
   end
 
+  def delete_from_watchlist_table(db_movie_title)
+    UserMovie.where(user_id: @userID, movie_title: db_movie_title, movie_status: 'watchlist').destroy_all
+  end
+
 
   def watchlist_to_watched_list(db_movie_title, movie_info)
-    UserMovie.where(user_id: @userID, movie_title: db_movie_title, movie_status: 'watchlist').destroy_all
+    delete_from_watchlist_table(db_movie_title)
     clear_screen
     send_to_already_watched_list(db_movie_title)
     puts "#{movie_info['Title']} has been added to your Already Watched List\n\n"
@@ -23,7 +27,7 @@ module MoviesController
 
 
   def delete_from_watchlist(db_movie_title, movie_info)
-    UserMovie.where(user_id: @userID, movie_title: db_movie_title, movie_status: 'watchlist').destroy_all
+    delete_from_watchlist_table(db_movie_title)
     clear_screen
     puts "#{movie_info['Title']} has been deleted from your Watchlist\n\n"
     watchlist
@@ -92,7 +96,6 @@ module MoviesController
 
 
   def watchlist
-
     title_list = get_watchlist
 
     selected_movie_index = navigation_options
@@ -108,13 +111,10 @@ module MoviesController
     puts full_movie_info(movie_info)
 
     watchlist_navigation(movie_info)
-
   end
 
-
-
   def full_movie_info(movie_info)
-    return "\nTitle: #{movie_info['Title']}" +
+    "\nTitle: #{movie_info['Title']}" +
     "\nYear: #{movie_info['Year']}" +
     "\nRated: #{movie_info['Rated']}" +
     "\nReleased: #{movie_info['Released']}" +
@@ -127,23 +127,24 @@ module MoviesController
     "\nPlot:\n#{movie_info['Plot']}"
   end
 
+  def delete_from_already_watched_table(db_movie_title)
+    UserMovie.where(user_id: @userID, movie_title: db_movie_title, movie_status: 'already_watched').destroy_all
+  end
+
 
   def watched_list_to_watchlist(db_movie_title, movie_info)
-    UserMovie.where(user_id: @userID, movie_title: db_movie_title, movie_status: 'already_watched').destroy_all
-    print "\e[H\e[2J"
+    delete_from_already_watched_table(db_movie_title)
+    clear_screen
     send_to_watchlist(db_movie_title)
-    puts "#{movie_info['Title']} has been added to your WatchList
-      
-      "
-      already_watched_list
+    puts "#{movie_info['Title']} has been added to your WatchList\n\n"
+    already_watched_list
   end
 
 
   def delete_from_already_watched_list(db_movie_title, movie_info)
-    UserMovie.where(user_id: @userID, movie_title: db_movie_title, movie_status: 'already_watched').destroy_all
-    print "\e[H\e[2J"
-    puts "#{movie_info['Title']} has been deleted from your Already Watched List"
-    puts
+    delete_from_already_watched_table(db_movie_title)
+    clear_screen
+    puts "#{movie_info['Title']} has been deleted from your Already Watched List\n\n"
     already_watched_list
   end
 
