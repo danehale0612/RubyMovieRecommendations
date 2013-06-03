@@ -1,17 +1,21 @@
 module MoviesController
 
+  def clear_screen
+    print "\e[H\e[2J"
+  end
+
   def create_user
     puts "Please enter username"
     username = gets.chomp
     User.create(name: username)
-    print "\e[H\e[2J"
+    clear_screen
     login_screen
   end
 
 
   def watchlist_to_watched_list(db_movie_title, movie_info)
     UserMovie.where(user_id: @userID, movie_title: db_movie_title, movie_status: 'watchlist').destroy_all
-    print "\e[H\e[2J"
+    clear_screen
     send_to_already_watched_list(db_movie_title)
     puts "#{movie_info['Title']} has been added to your Already Watched List
       
@@ -22,18 +26,15 @@ module MoviesController
 
   def delete_from_watchlist(db_movie_title, movie_info)
     UserMovie.where(user_id: @userID, movie_title: db_movie_title, movie_status: 'watchlist').destroy_all
-    print "\e[H\e[2J"
-    puts "#{movie_info['Title']} has been deleted from your Watchlist"
-    puts
+    clear_screen
+    puts "#{movie_info['Title']} has been deleted from your Watchlist\n\n"
     watchlist
   end
 
-
-
   def watchlist
     title_list = []
-    puts "Watchlist"
-    puts
+    puts "Watchlist\n\n"
+    
     watch_list = UserMovie.where(movie_status: "watchlist", user_id: @userID).all
     watch_list.each do |movie|
       title_list << movie.movie_title
@@ -43,22 +44,17 @@ module MoviesController
       puts "#{i + 1}) #{movie.movie_title}"
     end
 
-    puts
-
-    print "
-    r)Enter a new title for Recommendations
-    h)Go to User Home Screen
-
-    Select a movie: "
-    
+    print "\n\nr)Enter a new title for Recommendations" +
+    "\nh)Go to User Home Screen" +
+    "\n\nSelect a movie: "
 
     menu_option = gets.chomp.to_s
 
     if menu_option == "r"
-      print "\e[H\e[2J"
+      clear_screen
       recommend_screen 
     elsif menu_option == "h"
-      print "\e[H\e[2J"
+      clear_screen
       user_screen
     else 
       selected_movie_index = menu_option.to_i - 1
@@ -70,29 +66,26 @@ module MoviesController
 
     movie_info = JSON.parse(response.body)
 
-    print "\e[H\e[2J"
+    print clear_screen
+
     puts full_movie_info(movie_info)
       
-      print " 
-    1) Send to Already Watched List
-    2) Delete movie from Watchlist
-    3) Leave this movie
-
-    What would you like to do with movie?: "
+    print "\n1) Send to Already Watched List" +
+    "\n2) Delete movie from Watchlist" +
+    "\n3) Leave this movie" +
+    "\n\nWhat would you like to do with movie?: "
 
     db_movie_title = movie_info['Title'].downcase
-
     movie_action = gets.chomp
-
     if movie_action == "3"
-      print "\e[H\e[2J"
+      clear_screen
       watchlist
     elsif movie_action == "1"
       watchlist_to_watched_list(db_movie_title, movie_info)
     elsif movie_action == "2"
       delete_from_watchlist(db_movie_title, movie_info)
     else
-      print "\e[H\e[2J"
+      clear_screen
       puts "Not a valid command"
       puts
       watchlist
@@ -102,8 +95,6 @@ module MoviesController
 
 
   def full_movie_info(movie_info)
-
-    
     return "\nTitle: #{movie_info['Title']}" +
     "\nYear: #{movie_info['Year']}" +
     "\nRated: #{movie_info['Rated']}" +
@@ -115,7 +106,6 @@ module MoviesController
     "\nActors: #{movie_info['Actors']}" +
     "\nRotten Tomatoes Score: #{movie_info['tomatoMeter']}" +
     "\nPlot:\n#{movie_info['Plot']}"
-
   end
 
 
@@ -297,18 +287,15 @@ module MoviesController
 
 
   def movie_info_screen(top_five_movies, movie_title)
-
     print "\nr)Enter a new title for Recommendations\n" + 
     "h)Go to User Home Screen\n" + 
     "\nSelect a movie: "
-
     menu_option = gets.chomp.to_s
-
     if menu_option == "r"
-      print "\e[H\e[2J"
+      clear_screen
       recommend_screen 
     elsif menu_option == "h"
-      print "\e[H\e[2J"
+      clear_screen
       user_screen
     else 
       picked_movie_index = menu_option.to_i - 1
