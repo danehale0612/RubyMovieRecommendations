@@ -271,6 +271,13 @@ module MoviesController
     UserMovie.create(user_id: @userID, movie_title: db_unknown_title, movie_status: 'movie_not_found')
   end
 
+  def movie_info_error(picked_movie, movie_title)
+    db_unknown_title = picked_movie['Name'].downcase
+    puts "Sorry, Movie Info Not Found. Please Select Another Movie" 
+    send_to_movie_not_found_list(db_unknown_title)
+    recommendation_process(movie_title)
+  end
+
 
   def movie_info_screen(top_five_movies, movie_title)
 
@@ -284,43 +291,37 @@ module MoviesController
 
     clear_screen
 
-    if movie_info['Error'] == "Movie not found!"
-      db_unknown_title = picked_movie['Name'].downcase
-      puts "Sorry, Movie Info Not Found. Please Select Another Movie" 
-      send_to_movie_not_found_list(db_unknown_title)
+    movie_info_error(picked_movie, movie_title) if movie_info['Error']
+    
+    puts full_movie_info(movie_info)
+    
+    print "\n1) Send to Watchlist\n" +
+    "2) Send to Already Watched List\n" +
+    "3) Leave this movie\n" +
+    "\nWhat would you like to do with movie?: "
+
+    db_movie_title = movie_info['Title'].downcase
+
+    movie_action = gets.chomp
+
+    if movie_action == "3"
+      clear_screen
+      recommended_movies(top_five_movies, movie_title)
+    elsif movie_action == "1"
+      clear_screen
+      send_to_watchlist(db_movie_title)
+      puts "#{movie_info['Title']} has been added to your WatchList\n\n"
+      recommendation_process(movie_title)
+    elsif movie_action == "2"
+      clear_screen
+      send_to_already_watched_list(db_movie_title)
+      puts "#{movie_info['Title']} has been added to your Already Watched List\n\n"
       recommendation_process(movie_title)
     else
-      puts full_movie_info(movie_info)
-      
-      print "\n1) Send to Watchlist\n" +
-      "2) Send to Already Watched List\n" +
-      "3) Leave this movie\n" +
-      "\nWhat would you like to do with movie?: "
-
-      db_movie_title = movie_info['Title'].downcase
-
-      movie_action = gets.chomp
-
-      if movie_action == "3"
-        clear_screen
-        recommended_movies(top_five_movies, movie_title)
-      elsif movie_action == "1"
-        clear_screen
-        send_to_watchlist(db_movie_title)
-        puts "#{movie_info['Title']} has been added to your WatchList\n\n"
-        recommendation_process(movie_title)
-      elsif movie_action == "2"
-        clear_screen
-        send_to_already_watched_list(db_movie_title)
-        puts "#{movie_info['Title']} has been added to your Already Watched List\n\n"
-        recommendation_process(movie_title)
-      else
-        clear_screen
-        puts "Not A Valid Command\n\n"
-        recommendation_process(movie_title)
-      end
+      clear_screen
+      puts "Not A Valid Command\n\n"
+      recommendation_process(movie_title)
     end
-
   end
 
 
