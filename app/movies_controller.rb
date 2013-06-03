@@ -49,10 +49,13 @@ module MoviesController
     end
   end
 
-  def watchlist
+  def get_watchlist
     title_list = []
+
     puts "Watchlist\n\n"
+
     watch_list = UserMovie.where(movie_status: "watchlist", user_id: @userID).all
+    
     watch_list.each do |movie|
       title_list << movie.movie_title
     end
@@ -60,6 +63,38 @@ module MoviesController
     watch_list.each_with_index do |movie, i|
       puts "#{i + 1}) #{movie.movie_title}"
     end
+
+    title_list
+  end
+
+  def watchlist_navigation(movie_info)
+    print "\n1) Send to Already Watched List" +
+    "\n2) Delete movie from Watchlist" +
+    "\n3) Leave this movie" +
+    "\n\nWhat would you like to do with movie?: "
+
+    db_movie_title = movie_info['Title'].downcase
+
+    movie_action = gets.chomp
+    
+    if movie_action == "3"
+      clear_screen
+      watchlist
+    elsif movie_action == "1"
+      watchlist_to_watched_list(db_movie_title, movie_info)
+    elsif movie_action == "2"
+      delete_from_watchlist(db_movie_title, movie_info)
+    else
+      clear_screen
+      puts "Not a valid command\n\n"
+      watchlist
+    end
+  end
+
+
+  def watchlist
+
+    title_list = get_watchlist
 
     selected_movie_index = navigation_options
 
@@ -72,27 +107,9 @@ module MoviesController
     print clear_screen
 
     puts full_movie_info(movie_info)
-      
-    print "\n1) Send to Already Watched List" +
-    "\n2) Delete movie from Watchlist" +
-    "\n3) Leave this movie" +
-    "\n\nWhat would you like to do with movie?: "
 
-    db_movie_title = movie_info['Title'].downcase
-    movie_action = gets.chomp
-    if movie_action == "3"
-      clear_screen
-      watchlist
-    elsif movie_action == "1"
-      watchlist_to_watched_list(db_movie_title, movie_info)
-    elsif movie_action == "2"
-      delete_from_watchlist(db_movie_title, movie_info)
-    else
-      clear_screen
-      puts "Not a valid command"
-      puts
-      watchlist
-    end
+    watchlist_navigation(movie_info)
+
   end
 
 
@@ -225,11 +242,9 @@ module MoviesController
 
 
   def login_screen
-    print "
-    See These Movies!
-    Login
-
-    Type Username: "
+    print "See These Movies!\n\n" +
+    "Login\n\n" +
+    "Type Username: "
     username = gets.chomp 
 
     table_username = User.where(:name => username).first
