@@ -29,10 +29,15 @@ module MoviesController
     watchlist
   end
 
-  def navigation_options
+  def home_recommend_navigate_options
     print "\n\nr)Enter a new title for Recommendations" +
     "\nh)Go to User Home Screen" +
     "\n\nSelect a movie: "
+  end
+
+  def navigation_options
+    
+    home_recommend_navigate_options
 
     menu_option = gets.chomp.to_s
 
@@ -270,9 +275,7 @@ module MoviesController
   end
 
   def movie_info_screen_options
-    print "\nr)Enter a new title for Recommendations\n" + 
-    "h)Go to User Home Screen\n" + 
-    "\nSelect a movie: "
+    home_recommend_navigate_options
     menu_option = gets.chomp.to_s
     if menu_option == "r"
       clear_screen
