@@ -280,30 +280,19 @@ module MoviesController
 
 
   def movie_info_screen(top_five_movies, movie_title)
-
     picked_movie_index = navigation_options
-
     picked_movie = top_five_movies[picked_movie_index]
-
     response = Faraday.get "http://www.omdbapi.com/?i=&t=#{picked_movie['Name']}&plot=full&tomatoes=true"
-
     movie_info = JSON.parse(response.body)
-
     clear_screen
-
     movie_info_error(picked_movie, movie_title) if movie_info['Error']
-    
     puts full_movie_info(movie_info)
-    
     print "\n1) Send to Watchlist\n" +
     "2) Send to Already Watched List\n" +
     "3) Leave this movie\n" +
     "\nWhat would you like to do with movie?: "
-
     db_movie_title = movie_info['Title'].downcase
-
     movie_action = gets.chomp
-
     if movie_action == "3"
       clear_screen
       recommended_movies(top_five_movies, movie_title)
