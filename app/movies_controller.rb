@@ -17,10 +17,8 @@ module MoviesController
     UserMovie.where(user_id: @userID, movie_title: db_movie_title, movie_status: 'watchlist').destroy_all
     clear_screen
     send_to_already_watched_list(db_movie_title)
-    puts "#{movie_info['Title']} has been added to your Already Watched List
-      
-      "
-      watchlist
+    puts "#{movie_info['Title']} has been added to your Already Watched List\n\n"
+    watchlist
   end
 
 
@@ -34,7 +32,6 @@ module MoviesController
   def watchlist
     title_list = []
     puts "Watchlist\n\n"
-    
     watch_list = UserMovie.where(movie_status: "watchlist", user_id: @userID).all
     watch_list.each do |movie|
       title_list << movie.movie_title
@@ -285,8 +282,7 @@ module MoviesController
     UserMovie.create(user_id: @userID, movie_title: db_unknown_title, movie_status: 'movie_not_found')
   end
 
-
-  def movie_info_screen(top_five_movies, movie_title)
+  def movie_info_screen_options
     print "\nr)Enter a new title for Recommendations\n" + 
     "h)Go to User Home Screen\n" + 
     "\nSelect a movie: "
@@ -298,8 +294,14 @@ module MoviesController
       clear_screen
       user_screen
     else 
-      picked_movie_index = menu_option.to_i - 1
+      movie_index = menu_option.to_i - 1
     end
+  end
+
+
+  def movie_info_screen(top_five_movies, movie_title)
+
+    picked_movie_index = movie_info_screen_options
 
     picked_movie = top_five_movies[picked_movie_index]
 
