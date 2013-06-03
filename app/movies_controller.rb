@@ -31,7 +31,6 @@ module MoviesController
 
 
   def navigation_options
-    
     print "\n\nr)Enter a new title for Recommendations" +
     "\nh)Go to User Home Screen" +
     "\n\nSelect a movie: "
@@ -76,7 +75,7 @@ module MoviesController
     db_movie_title = movie_info['Title'].downcase
 
     movie_action = gets.chomp
-    
+
     if movie_action == "3"
       clear_screen
       watchlist
@@ -148,13 +147,10 @@ module MoviesController
     already_watched_list
   end
 
-
-
-  def already_watched_list
+  def get_already_watched_list
     title_list = []
-    puts "Already Watched List"
 
-    puts
+    puts "Already Watched List\n\n"
 
     watchedList = UserMovie.where(movie_status: "already_watched", user_id: @userID).all
     watchedList.each do |movie|
@@ -167,6 +163,37 @@ module MoviesController
 
     puts
 
+    title_list
+  end
+
+  def already_watched_list_navigation(movie_info)
+    print "\n1) Send to Watchlist \n" +
+    "2) Delete movie from Already Watched List\n" +
+    "3) Leave this movie\n\n" +
+    "What would you like to do with movie?: "
+
+    db_movie_title = movie_info['Title'].downcase
+
+    movie_action = gets.chomp
+
+    if movie_action == "3"
+      clear_screen
+      already_watched_list
+    elsif movie_action == "1"
+      watched_list_to_watchlist(db_movie_title, movie_info)
+    elsif movie_action == "2"
+      delete_from_already_watched_list(db_movie_title, movie_info)
+    else
+      clear_screen
+      puts "Not a valid command"
+      puts
+      already_watched_list
+    end
+  end
+
+  def already_watched_list
+    title_list = get_already_watched_list
+
     selected_movie_index = navigation_options
 
     selected_movie = title_list[selected_movie_index]
@@ -175,34 +202,11 @@ module MoviesController
 
     movie_info = JSON.parse(response.body)
 
-    print "\e[H\e[2J"
+    clear_screen
+
     puts full_movie_info(movie_info)
       
-      print " 
-    1) Send to Watchlist
-    2) Delete movie from Already Watched List
-    3) Leave this movie
-
-    What would you like to do with movie?:"
-
-    db_movie_title = movie_info['Title'].downcase
-
-    movie_action = gets.chomp
-
-    if movie_action == "3"
-      print "\e[H\e[2J"
-      already_watched_list
-    elsif movie_action == "1"
-      watched_list_to_watchlist(db_movie_title, movie_info)
-    elsif movie_action == "2"
-      delete_from_already_watched_list(db_movie_title, movie_info)
-    else
-      print "\e[H\e[2J"
-      puts "Not a valid command"
-      puts
-      already_watched_list
-    end
-
+    already_watched_list_navigation(movie_info)
   end
 
 
