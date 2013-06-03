@@ -29,18 +29,7 @@ module MoviesController
     watchlist
   end
 
-  def watchlist
-    title_list = []
-    puts "Watchlist\n\n"
-    watch_list = UserMovie.where(movie_status: "watchlist", user_id: @userID).all
-    watch_list.each do |movie|
-      title_list << movie.movie_title
-    end
-
-    watch_list.each_with_index do |movie, i|
-      puts "#{i + 1}) #{movie.movie_title}"
-    end
-
+  def navigation_options
     print "\n\nr)Enter a new title for Recommendations" +
     "\nh)Go to User Home Screen" +
     "\n\nSelect a movie: "
@@ -56,6 +45,21 @@ module MoviesController
     else 
       selected_movie_index = menu_option.to_i - 1
     end
+  end
+
+  def watchlist
+    title_list = []
+    puts "Watchlist\n\n"
+    watch_list = UserMovie.where(movie_status: "watchlist", user_id: @userID).all
+    watch_list.each do |movie|
+      title_list << movie.movie_title
+    end
+
+    watch_list.each_with_index do |movie, i|
+      puts "#{i + 1}) #{movie.movie_title}"
+    end
+
+    selected_movie_index = navigation_options
 
     selected_movie = title_list[selected_movie_index]
 
@@ -144,24 +148,7 @@ module MoviesController
 
     puts
 
-    print "
-    r)Enter a new title for Recommendations
-    h)Go to User Home Screen
-
-    Select a movie: "
-    
-
-    menu_option = gets.chomp.to_s
-
-    if menu_option == "r"
-      print "\e[H\e[2J"
-      recommend_screen 
-    elsif menu_option == "h"
-      print "\e[H\e[2J"
-      user_screen
-    else 
-      selected_movie_index = menu_option.to_i - 1
-    end
+    selected_movie_index = navigation_options
 
     selected_movie = title_list[selected_movie_index]
 
@@ -329,26 +316,21 @@ module MoviesController
       movie_action = gets.chomp
 
       if movie_action == "3"
-        print "\e[H\e[2J"
+        clear_screen
         recommended_movies(top_five_movies, movie_title)
       elsif movie_action == "1"
-        print "\e[H\e[2J"
+        clear_screen
         send_to_watchlist(db_movie_title)
-        puts "#{movie_info['Title']} has been added to your WatchList
-        
-        "
+        puts "#{movie_info['Title']} has been added to your WatchList\n\n"
         recommendation_process(movie_title)
       elsif movie_action == "2"
-        print "\e[H\e[2J"
+        clear_screen
         send_to_already_watched_list(db_movie_title)
-        puts "#{movie_info['Title']} has been added to your Already Watched List
-        
-        "
+        puts "#{movie_info['Title']} has been added to your Already Watched List\n\n"
         recommendation_process(movie_title)
       else
-        print "\e[H\e[2J"
-        puts "Not A Valid Command"
-        puts
+        clear_screen
+        puts "Not A Valid Command\n\n"
         recommendation_process(movie_title)
       end
     end
