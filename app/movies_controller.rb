@@ -29,15 +29,12 @@ module MoviesController
     watchlist
   end
 
-  def home_recommend_navigate_options
-    print "\n\nr)Enter a new title for Recommendations" +
-    "\nh)Go to User Home Screen" +
-    "\n\nSelect a movie: "
-  end
 
   def navigation_options
     
-    home_recommend_navigate_options
+    print "\n\nr)Enter a new title for Recommendations" +
+    "\nh)Go to User Home Screen" +
+    "\n\nSelect a movie: "
 
     menu_option = gets.chomp.to_s
 
@@ -274,24 +271,10 @@ module MoviesController
     UserMovie.create(user_id: @userID, movie_title: db_unknown_title, movie_status: 'movie_not_found')
   end
 
-  def movie_info_screen_options
-    home_recommend_navigate_options
-    menu_option = gets.chomp.to_s
-    if menu_option == "r"
-      clear_screen
-      recommend_screen 
-    elsif menu_option == "h"
-      clear_screen
-      user_screen
-    else 
-      movie_index = menu_option.to_i - 1
-    end
-  end
-
 
   def movie_info_screen(top_five_movies, movie_title)
 
-    picked_movie_index = movie_info_screen_options
+    picked_movie_index = navigation_options
 
     picked_movie = top_five_movies[picked_movie_index]
 
@@ -299,7 +282,7 @@ module MoviesController
 
     movie_info = JSON.parse(response.body)
 
-    print "\e[H\e[2J"
+    clear_screen
 
     if movie_info['Error'] == "Movie not found!"
       db_unknown_title = picked_movie['Name'].downcase
