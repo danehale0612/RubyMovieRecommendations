@@ -379,6 +379,8 @@ module MoviesController
     scrub_results
   end
 
+  
+
   def get_top_five_movies(scrub_results)
     top_five_movies = scrub_results.shift(5)
 
