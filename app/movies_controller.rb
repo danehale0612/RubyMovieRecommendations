@@ -306,6 +306,7 @@ module MoviesController
     movie_action = gets.chomp
 
     if movie_action == "3"
+      clear_screen
       recommended_movies(top_five_movies, movie_title)
     elsif movie_action == "1"
       send_to_watchlist(db_movie_title, movie_info)
@@ -353,8 +354,6 @@ module MoviesController
 
 
   def recommended_movies(top_five_movies, movie_title)
-    movie_title = movie_title
-    clear_screen
     puts
     top_five_movies.each do |movie|
       puts "#{movie['Index']}) #{movie['Name']}"
@@ -367,14 +366,10 @@ module MoviesController
 
   def scrubbed_results(results)
     scrub_results = []
-
     results.length.times do |i|
       lowercase_results = results[i]['Name'].downcase
-
       matched_movie = UserMovie.where(movie_title: lowercase_results, user_id: @userID).first
-      if matched_movie.nil?
-        scrub_results << results[i]
-      end
+      scrub_results << results[i] if matched_movie.nil?
     end 
     scrub_results
   end
@@ -383,7 +378,6 @@ module MoviesController
 
   def get_top_five_movies(scrub_results)
     top_five_movies = scrub_results.shift(5)
-
     top_five_movies.each_with_index do |movie, index|
       movie['Index'] = index + 1
     end
