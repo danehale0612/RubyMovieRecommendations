@@ -298,14 +298,7 @@ module MoviesController
     recommendation_process(movie_title)
   end
 
-  def movie_info_navigation(movie_info, top_five_movies, movie_title)
-    print "\n1) Send to Watchlist\n" +
-    "2) Send to Already Watched List\n" +
-    "3) Leave this movie\n" +
-    "\nWhat would you like to do with movie?: "
-
-    db_movie_title = movie_info['Title'].downcase
-
+  def movie_info_navigation_options(movie_info, top_five_movies, movie_title, db_movie_title)
     movie_action = gets.chomp
 
     if movie_action == "3"
@@ -326,6 +319,17 @@ module MoviesController
       puts "Not A Valid Command\n\n"
       recommendation_process(movie_title)
     end
+  end
+
+  def movie_info_navigation(movie_info, top_five_movies, movie_title)
+    print "\n1) Send to Watchlist\n" +
+    "2) Send to Already Watched List\n" +
+    "3) Leave this movie\n" +
+    "\nWhat would you like to do with movie?: "
+
+    db_movie_title = movie_info['Title'].downcase
+
+    movie_info_navigation_options(movie_info, top_five_movies, movie_title, db_movie_title)
   end
 
 
