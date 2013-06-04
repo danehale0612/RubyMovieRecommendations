@@ -114,29 +114,17 @@ module MoviesController
   end
 
   def full_movie_info(movie_info)
-    movie_title = movie_info['Title']
-    movie_year = movie_info['Year']
-    movie_rated = movie_info['Rated']
-    movie_released = movie_info['Released']
-    movie_runtime = movie_info['Runtime']
-    movie_genre = movie_info['Genre']
-    movie_director = movie_info['Director']
-    movie_writer = movie_info['Writer']
-    movie_actors = movie_info['Actors']
-    movie_score = movie_info['tomatoMeter']
-    movie_plot = movie_info['Plot']
-
-    "\nTitle: #{movie_title}" +
-    "\nYear: #{movie_year}" +
-    "\nRated: #{movie_rated}" +
-    "\nReleased: #{movie_released}" +
-    "\nRuntime: #{movie_runtime}" +
-    "\nGenre: #{movie_genre}" +
-    "\nDirector: #{movie_director}" +
-    "\nWriter: #{movie_writer}" +
-    "\nActors: #{movie_actors}" +
-    "\nRotten Tomatoes Score: #{movie_score}" +
-    "\nPlot:\n#{movie_plot}"
+    "\nTitle: #{movie_info['Title']}" +
+    "\nYear: #{movie_info['Year']}" +
+    "\nRated: #{movie_info['Rated']}" +
+    "\nReleased: #{movie_info['Released']}" +
+    "\nRuntime: #{movie_info['Runtime']}" +
+    "\nGenre: #{movie_info['Genre']}" +
+    "\nDirector: #{movie_info['Director']}" +
+    "\nWriter: #{movie_info['Writer']}" +
+    "\nActors: #{movie_info['Actors']}" +
+    "\nRotten Tomatoes Score: #{movie_info['tomatoMeter']}" +
+    "\nPlot:\n#{movie_info['Plot']}"
   end
 
   def delete_from_already_watched_table(db_movie_title)
