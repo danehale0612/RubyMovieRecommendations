@@ -254,18 +254,6 @@ module MoviesController
     puts "#{movie_info['Title']} has been added to your Already Watched List\n\n" if status == 'already_watched'
   end
 
-  def send_to_watchlist(db_movie_title, movie_info)
-    clear_screen
-    UserMovie.create(user_id: @userID, movie_title: db_movie_title, movie_status: 'watchlist')
-    puts "#{movie_info['Title']} has been added to your WatchList\n\n"
-  end
-
-  def send_to_already_watched_list(db_movie_title, movie_info)
-    clear_screen
-    UserMovie.create(user_id: @userID, movie_title: db_movie_title, movie_status: 'already_watched')
-    puts "#{movie_info['Title']} has been added to your Already Watched List\n\n"
-  end
-
   def send_to_movie_not_found_list(db_unknown_title)
     UserMovie.create(user_id: @userID, movie_title: db_unknown_title, movie_status: 'movie_not_found')
   end
