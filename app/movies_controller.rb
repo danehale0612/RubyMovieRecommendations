@@ -97,17 +97,17 @@ module MoviesController
   end
 
   def full_movie_info(movie_info)
-    "\nTitle: #{movie_info['Title']}" +
-    "\nYear: #{movie_info['Year']}" +
-    "\nRated: #{movie_info['Rated']}" +
-    "\nReleased: #{movie_info['Released']}" +
-    "\nRuntime: #{movie_info['Runtime']}" +
-    "\nGenre: #{movie_info['Genre']}" +
-    "\nDirector: #{movie_info['Director']}" +
-    "\nWriter: #{movie_info['Writer']}" +
-    "\nActors: #{movie_info['Actors']}" +
-    "\nRotten Tomatoes Score: #{movie_info['tomatoMeter']}" +
-    "\nPlot:\n#{movie_info['Plot']}"
+    "\nTitle: " + movie_info['Title'] +
+    "\nYear: " + movie_info['Year'] +
+    "\nRated: " + movie_info['Rated'] +
+    "\nReleased: " + movie_info['Released'] +
+    "\nRuntime: " + movie_info['Runtime'] +
+    "\nGenre: " + movie_info['Genre'] +
+    "\nDirector: " + movie_info['Director'] +
+    "\nWriter: " + movie_info['Writer'] +
+    "\nActors: " + movie_info['Actors'] +
+    "\nRotten Tomatoes Score: " + movie_info['tomatoMeter'] +
+    "\nPlot:\n" + movie_info['Plot']
   end
 
   def delete_from_already_watched_table(db_movie_title)
