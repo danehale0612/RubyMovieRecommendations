@@ -365,16 +365,7 @@ module MoviesController
 
   end
 
-  def recommendation_process(movie_title)
-
-    movie_title = movie_title
-
-    response = Faraday.get "http://www.tastekid.com/ask/ws?q=movie:#{movie_title}//movies&format=JSON&f=see_the3022&k=nzfkmgm3nwvm"
-
-    results = JSON.parse(response.body)['Similar']['Results']
-
-    puts "Movie title not recognized" if results.length == 0
-    
+  def scrubbed_results(results)
     scrub_results = []
 
     results.length.times do |i|
@@ -385,12 +376,32 @@ module MoviesController
         scrub_results << results[i]
       end
     end 
+    scrub_results
+  end
 
+  def get_top_five_movies(scrub_results)
     top_five_movies = scrub_results.shift(5)
 
     top_five_movies.each_with_index do |movie, index|
       movie['Index'] = index + 1
     end
+    top_five_movies
+  end
+
+
+  def recommendation_process(movie_title)
+
+    movie_title = movie_title
+
+    response = Faraday.get "http://www.tastekid.com/ask/ws?q=movie:#{movie_title}//movies&format=JSON&f=see_the3022&k=nzfkmgm3nwvm"
+
+    results = JSON.parse(response.body)['Similar']['Results']
+
+    puts "Movie title not recognized" if results.length == 0
+    
+    scrub_results = scrubbed_results(results)
+
+    top_five_movies = get_top_five_movies(scrub_results)
 
     recommended_movies(top_five_movies, movie_title)
 
