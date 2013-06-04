@@ -379,7 +379,7 @@ module MoviesController
     scrub_results
   end
 
-  
+
 
   def get_top_five_movies(scrub_results)
     top_five_movies = scrub_results.shift(5)
@@ -392,8 +392,6 @@ module MoviesController
 
 
   def recommendation_process(movie_title)
-
-    movie_title = movie_title
 
     response = Faraday.get "http://www.tastekid.com/ask/ws?q=movie:#{movie_title}//movies&format=JSON&f=see_the3022&k=nzfkmgm3nwvm"
 
