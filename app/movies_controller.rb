@@ -384,12 +384,15 @@ module MoviesController
     top_five_movies
   end
 
+  def get_movie_recommendations_from_api(movie_title)
+    response = Faraday.get "http://www.tastekid.com/ask/ws?q=movie:#{movie_title}//movies&format=JSON&f=see_the3022&k=nzfkmgm3nwvm"
+    results = JSON.parse(response.body)['Similar']['Results']
+  end
+
 
   def recommendation_process(movie_title)
 
-    response = Faraday.get "http://www.tastekid.com/ask/ws?q=movie:#{movie_title}//movies&format=JSON&f=see_the3022&k=nzfkmgm3nwvm"
-
-    results = JSON.parse(response.body)['Similar']['Results']
+    results = get_movie_recommendations_from_api(movie_title)
 
     puts "Movie title not recognized" if results.length == 0
     
