@@ -20,8 +20,7 @@ module MoviesController
   def watchlist_to_watched_list(db_movie_title, movie_info)
     delete_from_watchlist_table(db_movie_title)
     clear_screen
-    send_to_already_watched_list(db_movie_title)
-    puts "#{movie_info['Title']} has been added to your Already Watched List\n\n"
+    send_to_already_watched_list(db_movie_title, movie_info)
     watchlist
   end
 
@@ -38,9 +37,7 @@ module MoviesController
     print "\n\nr)Enter a new title for Recommendations" +
     "\nh)Go to User Home Screen" +
     "\n\nSelect a movie: "
-
     menu_option = gets.chomp.to_s
-
     if menu_option == "r"
       clear_screen
       recommend_screen 
@@ -54,19 +51,14 @@ module MoviesController
 
   def get_watchlist
     title_list = []
-
     puts "Watchlist\n\n"
-
     watch_list = UserMovie.where(movie_status: "watchlist", user_id: @userID).all
-    
     watch_list.each do |movie|
       title_list << movie.movie_title
     end
-
     watch_list.each_with_index do |movie, i|
       puts "#{i + 1}) #{movie.movie_title}"
     end
-
     title_list
   end
 
@@ -75,11 +67,8 @@ module MoviesController
     "\n2) Delete movie from Watchlist" +
     "\n3) Leave this movie" +
     "\n\nWhat would you like to do with movie?: "
-
     db_movie_title = movie_info['Title'].downcase
-
     movie_action = gets.chomp
-
     if movie_action == "3"
       clear_screen
       watchlist
@@ -97,19 +86,12 @@ module MoviesController
 
   def watchlist
     title_list = get_watchlist
-
     selected_movie_index = navigation_options
-
     selected_movie = title_list[selected_movie_index]
-
     response = Faraday.get "http://www.omdbapi.com/?i=&t=#{selected_movie}&plot=full&tomatoes=true"
-
     movie_info = JSON.parse(response.body)
-
     print clear_screen
-
     puts full_movie_info(movie_info)
-
     watchlist_navigation(movie_info)
   end
 
@@ -135,8 +117,7 @@ module MoviesController
   def watched_list_to_watchlist(db_movie_title, movie_info)
     delete_from_already_watched_table(db_movie_title)
     clear_screen
-    send_to_watchlist(db_movie_title)
-    puts "#{movie_info['Title']} has been added to your WatchList\n\n"
+    send_to_watchlist(db_movie_title, movie_info)
     already_watched_list
   end
 
@@ -150,20 +131,15 @@ module MoviesController
 
   def get_already_watched_list
     title_list = []
-
     puts "Already Watched List\n\n"
-
     watchedList = UserMovie.where(movie_status: "already_watched", user_id: @userID).all
     watchedList.each do |movie|
       title_list << movie.movie_title
     end
-
     watchedList.each_with_index do |movie, i|
       puts "#{i + 1}) #{movie.movie_title}"
     end
-
     puts
-
     title_list
   end
 
@@ -172,11 +148,8 @@ module MoviesController
     "2) Delete movie from Already Watched List\n" +
     "3) Leave this movie\n\n" +
     "What would you like to do with movie?: "
-
     db_movie_title = movie_info['Title'].downcase
-
     movie_action = gets.chomp
-
     if movie_action == "3"
       clear_screen
       already_watched_list
@@ -194,19 +167,12 @@ module MoviesController
 
   def already_watched_list
     title_list = get_already_watched_list
-
     selected_movie_index = navigation_options
-
     selected_movie = title_list[selected_movie_index]
-
     response = Faraday.get "http://www.omdbapi.com/?i=&t=#{selected_movie}&plot=full&tomatoes=true"
-
     movie_info = JSON.parse(response.body)
-
     clear_screen
-
     puts full_movie_info(movie_info)
-      
     already_watched_list_navigation(movie_info)
   end
 
@@ -285,7 +251,7 @@ module MoviesController
     puts "#{movie_info['Title']} has been added to your WatchList\n\n"
   end
 
-  def send_to_already_watched_list(db_movie_title)
+  def send_to_already_watched_list(db_movie_title, movie_info)
     clear_screen
     UserMovie.create(user_id: @userID, movie_title: db_movie_title, movie_status: 'already_watched')
     puts "#{movie_info['Title']} has been added to your Already Watched List\n\n"
@@ -384,15 +350,12 @@ module MoviesController
     top_five_movies
   end
 
-  def get_movie_recommendations_from_api(movie_title)
-    response = Faraday.get "http://www.tastekid.com/ask/ws?q=movie:#{movie_title}//movies&format=JSON&f=see_the3022&k=nzfkmgm3nwvm"
-    results = JSON.parse(response.body)['Similar']['Results']
-  end
-
 
   def recommendation_process(movie_title)
 
-    results = get_movie_recommendations_from_api(movie_title)
+    response = Faraday.get "http://www.tastekid.com/ask/ws?q=movie:#{movie_title}//movies&format=JSON&f=see_the3022&k=nzfkmgm3nwvm"
+
+    results = JSON.parse(response.body)['Similar']['Results']
 
     puts "Movie title not recognized" if results.length == 0
     
