@@ -279,12 +279,16 @@ module MoviesController
     end
   end
 
-  def send_to_watchlist(db_movie_title)
+  def send_to_watchlist(db_movie_title, movie_info)
+    clear_screen
     UserMovie.create(user_id: @userID, movie_title: db_movie_title, movie_status: 'watchlist')
+    puts "#{movie_info['Title']} has been added to your WatchList\n\n"
   end
 
   def send_to_already_watched_list(db_movie_title)
+    clear_screen
     UserMovie.create(user_id: @userID, movie_title: db_movie_title, movie_status: 'already_watched')
+    puts "#{movie_info['Title']} has been added to your Already Watched List\n\n"
   end
 
   def send_to_movie_not_found_list(db_unknown_title)
@@ -302,17 +306,12 @@ module MoviesController
     movie_action = gets.chomp
 
     if movie_action == "3"
-      clear_screen
       recommended_movies(top_five_movies, movie_title)
     elsif movie_action == "1"
-      clear_screen
-      send_to_watchlist(db_movie_title)
-      puts "#{movie_info['Title']} has been added to your WatchList\n\n"
+      send_to_watchlist(db_movie_title, movie_info)
       recommendation_process(movie_title)
     elsif movie_action == "2"
-      clear_screen
-      send_to_already_watched_list(db_movie_title)
-      puts "#{movie_info['Title']} has been added to your Already Watched List\n\n"
+      send_to_already_watched_list(db_movie_title, movie_info)
       recommendation_process(movie_title)
     else
       clear_screen
@@ -353,12 +352,9 @@ module MoviesController
   end
 
 
-
-
-
   def recommended_movies(top_five_movies, movie_title)
     movie_title = movie_title
-
+    clear_screen
     puts
     top_five_movies.each do |movie|
       puts "#{movie['Index']}) #{movie['Name']}"
