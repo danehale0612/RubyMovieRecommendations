@@ -20,7 +20,8 @@ module MoviesController
   def watchlist_to_watched_list(db_movie_title, movie_info)
     delete_from_watchlist_table(db_movie_title)
     clear_screen
-    send_to_already_watched_list(db_movie_title, movie_info)
+    status = 'already_watched'
+    send_movie_to_list(db_movie_title, movie_info, status)
     watchlist
   end
 
@@ -117,7 +118,8 @@ module MoviesController
   def watched_list_to_watchlist(db_movie_title, movie_info)
     delete_from_already_watched_table(db_movie_title)
     clear_screen
-    send_to_watchlist(db_movie_title, movie_info)
+    status = 'watchlist'
+    send_movie_to_list(db_movie_title, movie_info, status)
     already_watched_list
   end
 
@@ -245,6 +247,13 @@ module MoviesController
     end
   end
 
+  def send_movie_to_list(db_movie_title, movie_info, status)
+    clear_screen
+    UserMovie.create(user_id: @userID, movie_title: db_movie_title, movie_status: status)
+    puts "#{movie_info['Title']} has been added to your WatchList\n\n" if status == 'watchlist'
+    puts "#{movie_info['Title']} has been added to your Already Watched List\n\n" if status == 'already_watched'
+  end
+
   def send_to_watchlist(db_movie_title, movie_info)
     clear_screen
     UserMovie.create(user_id: @userID, movie_title: db_movie_title, movie_status: 'watchlist')
@@ -275,10 +284,12 @@ module MoviesController
       clear_screen
       recommended_movies(top_five_movies, movie_title)
     elsif movie_action == "1"
-      send_to_watchlist(db_movie_title, movie_info)
+      status = 'watchlist'
+      send_movie_to_list(db_movie_title, movie_info, status)
       recommendation_process(movie_title)
     elsif movie_action == "2"
-      send_to_already_watched_list(db_movie_title, movie_info)
+      status = 'already_watched'
+      send_movie_to_list(db_movie_title, movie_info, status)
       recommendation_process(movie_title)
     else
       clear_screen
